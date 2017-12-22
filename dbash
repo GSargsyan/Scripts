@@ -1,0 +1,22 @@
+#! /bin/bash
+
+if [ "$1" == "" ]
+then
+	echo 'No name provided'
+	exit 1
+fi
+
+NAME=$1
+
+LINE=$(docker ps | grep $NAME | head -1)
+ID="$(cut -d' ' -f1 <<<$LINE)"
+IMGNAME="$(cut -d' ' -f2 <<<$LINE)"
+
+if [ $ID ]
+then
+	echo "Running into $IMGNAME"
+	docker exec -it $ID /bin/bash
+else
+	echo "No image name containing $NAME"
+	exit 2
+fi
