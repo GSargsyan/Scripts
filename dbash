@@ -6,17 +6,17 @@ then
 	exit 1
 fi
 
-NAME=$1
+KEY=$1
 
-LINE=$(docker ps | grep $NAME | head -1)
+LINE=$(docker ps | grep $KEY | head -1)
 ID="$(cut -d' ' -f1 <<<$LINE)"
-IMGNAME="$(cut -d' ' -f2 <<<$LINE)"
+FULLIMGNAME="$(cut -d' ' -f2 <<<$LINE)"
 
 if [ $ID ]
 then
-	echo "Running into $IMGNAME"
+	echo "Running into $FULLIMGNAME"
 	docker exec -it $ID /bin/bash
 else
-	echo "No image name containing $NAME"
+	echo "No image name containing $KEY"
 	exit 2
 fi
